@@ -1,12 +1,10 @@
 "use client";
-import { useState } from "react";
 import { ChevronDown } from "lucide-react"; // Arrow icon
 import logo from "../../assets/logo.png"; // Logo image
 import Image from "next/image";
 import Link from "next/link"; // Add Link for navigation
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="sticky top-4 z-50 text-white w-full">

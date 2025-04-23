@@ -1,12 +1,13 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { ShieldAlert, BellOff, CircleX } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 type Card = {
-  icons:ReactNode
+  icons: ReactNode;
   title: string;
   value: number;
   blocks: number;
-}
+};
 
 type FlyPosition = {
   id: number;
@@ -14,13 +15,13 @@ type FlyPosition = {
   y: number;
   toX: number;
   toY: number;
-}
+};
 
 const MonitoringCard: React.FC = () => {
   const [cards, setCards] = useState<Card[]>([
-    {icons:<BellOff />, title: 'Ignored Alerts', value: 193, blocks: 5 },
-    {icons:<CircleX/>, title: 'Wrongly Closed', value: 23, blocks: 4 },
-    {icons:<ShieldAlert/>, title: 'Active Threats', value: 2, blocks: 1 },
+    { icons: <BellOff />, title: 'Ignored Alerts', value: 193, blocks: 5 },
+    { icons: <CircleX />, title: 'Wrongly Closed', value: 23, blocks: 4 },
+    { icons: <ShieldAlert />, title: 'Active Threats', value: 2, blocks: 1 },
   ]);
 
   const [flyPos, setFlyPos] = useState<FlyPosition | null>(null);
@@ -62,9 +63,9 @@ const MonitoringCard: React.FC = () => {
           toY: toRect.top + scrollY,
         });
 
-        await new Promise(res => setTimeout(res, 1200));
+        await new Promise((res) => setTimeout(res, 1200));
 
-        setCards(prev => [
+        setCards((prev) => [
           { ...prev[0], blocks: prev[0].blocks - 1 },
           prev[1],
           { ...prev[2], blocks: prev[2].blocks + 1 },
@@ -72,7 +73,7 @@ const MonitoringCard: React.FC = () => {
 
         setFlyPos(null);
         transfers++;
-        await new Promise(res => setTimeout(res, 500));
+        await new Promise((res) => setTimeout(res, 500));
       }
     };
 
@@ -88,11 +89,7 @@ const MonitoringCard: React.FC = () => {
           className="backdrop-blur-sm border border-slate-700/50 rounded-lg p-4 text-white"
         >
           <div className="flex justify-between items-center mb-4">
-            <div className='flex items-center gap-2'>
-              {card.icons}
-            <span>{card.title}</span>
-              </div>
-            
+            <div className="flex items-center gap-2">{card.icons}</div>
             <span className="text-blue-400 font-bold text-xl">{card.value}</span>
           </div>
           <div className="flex space-x-1">
@@ -119,6 +116,31 @@ const MonitoringCard: React.FC = () => {
           </div>
         </div>
       ))}
+
+      {/* Fly block animation */}
+      {flyPos && (
+        <motion.div
+          key={flyPos.id}
+          className="w-6 h-6 bg-gray-700 rounded absolute"
+          initial={{
+            left: flyPos.x,
+            top: flyPos.y,
+          }}
+          animate={{
+            left: flyPos.toX,
+            top: flyPos.toY,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 100,
+            damping: 30,
+            duration: 1.2,
+          }}
+        />
+      )}
     </div>
   );
 };
