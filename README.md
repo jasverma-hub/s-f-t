@@ -6,7 +6,7 @@ This project is a visual, interactive demonstration that compares security opera
 
 ## Live Demo
 
-[View Live Demo](https://simbian-dashboard.vercel.app)
+[View Live Demo](https://s-f-t-z6vw.vercel.app/)
 
 ## Features
 
